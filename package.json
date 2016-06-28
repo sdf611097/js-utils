@@ -1,0 +1,29 @@
+{
+  "name": "ct-js-utils",
+  "version": "1.0.0",
+  "description": "es6 javascript utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdf611097/js-utils.git"
+  },
+  "keywords": [
+    "es6",
+    "utils"
+  ],
+  "author": "ChunTingLin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sdf611097/js-utils/issues"
+  },
+  "homepage": "https://github.com/sdf611097/js-utils#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3"
+  }
+}
