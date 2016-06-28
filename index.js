@@ -25,8 +25,14 @@ function getUniqueKeys(listOrObj, getKeyFunc){
     return Object.keys(obj);
 }
 
+function increment(value, incr) {
+    incr = incr? incr: 1;
+    return value? value + incr : incr;
+}
+
 module.exports = {
     getNewId: getNewId,
     countByKey: countByKey,
-    getUniqueKeys: getUniqueKeys
+    getUniqueKeys: getUniqueKeys,
+    increment: increment
 }

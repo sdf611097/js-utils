@@ -78,4 +78,11 @@ describe('function tests',function(){
         expect(util.getUniqueKeys(arr).indexOf('2')).to.not.equal(-1);
         expect(util.getUniqueKeys(arr).indexOf('3')).to.not.equal(-1);
     });
+
+    it('increment', function(){
+        let undef;
+        expect(util.increment(undef)).to.equal(1);
+        expect(util.increment(null)).to.equal(1);
+        expect(util.increment(2)).to.equal(3);
+    });
 });
