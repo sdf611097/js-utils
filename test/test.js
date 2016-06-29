@@ -76,6 +76,21 @@ describe('function tests',function(){
         expect(obj['test']).to.be.undefined;
         expect(getSum(obj)).to.equal(Object.keys(input).length);
 
+        //ignore function
+        let ignore = {
+            a:1,
+            b:1,
+            c:2,
+            1:3,
+            'test': function(){}
+        }
+        obj = util.countByKey(ignore);
+        expect(obj['1']).to.equal(2);
+        expect(obj['2']).to.equal(1);
+        expect(obj['test']).to.be.undefined;
+        expect(getSum(obj)).to.equal(Object.keys(ignore).length-1);
+        obj = util.countByKey(ignore, x=>x, false);
+        expect(getSum(obj)).to.equal(Object.keys(ignore).length);
     });
 
     it('getUniqueKeys', function(){
