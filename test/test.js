@@ -3,6 +3,13 @@ const expect = require('chai').expect;
 const util = require('../index.js');
 
 describe('function tests',function(){
+    it('pickOne', function(){
+        let undef;
+        expect(util.pickOne(undef, 1)).to.equal(1);
+        expect(util.pickOne(null, 1)).to.equal(1);
+        expect(util.pickOne(2, 1)).to.equal(2);
+        expect(util.pickOne('abc', 1)).to.equal('abc');
+    })
     it('getNewId', function(){
         let newId = util.getNewId(500);
         expect(newId.length).to.equal(500);

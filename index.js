@@ -30,7 +30,12 @@ function increment(value, incr) {
     return value? value + incr : incr;
 }
 
+function pickOne(value, otherwise){
+    return value? value: otherwise;
+}
+
 module.exports = {
+    pickOne: pickOne,
     getNewId: getNewId,
     countByKey: countByKey,
     getUniqueKeys: getUniqueKeys,
