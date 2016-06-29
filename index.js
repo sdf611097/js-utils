@@ -21,7 +21,7 @@ function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
             continue;
         }
         let key = getKeyFunc(listOrObj[i]);
-        obj[key] = obj[key]? obj[key]+1 : 1;
+        obj[key] = increment(obj[key], 1);
     }
     return obj;
 }
