@@ -1,6 +1,6 @@
 {
   "name": "ct-js-utils",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "es6 javascript utils",
   "main": "index.js",
   "scripts": {
@@ -25,5 +25,8 @@
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
     "mocha": "^2.5.3"
+  },
+  "engines": {
+    "node": ">=4.0"
   }
 }

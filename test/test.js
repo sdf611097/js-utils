@@ -107,4 +107,35 @@ describe('function tests',function(){
         expect(util.increment(null)).to.equal(1);
         expect(util.increment(2)).to.equal(3);
     });
+
+    it('objectMap', function(){
+        let obj = {
+            a: 1,
+            b: 2,
+            c: 3
+        };
+        function map(value){
+            return value * 2;
+        }
+        expect(util.objectMap(obj, map)).to.deep.equal({
+            a: 2, b:4, c:6
+        });
+    });
+
+    it('objectReduce', function(){
+        let obj = {
+            a: 1,
+            b: 2,
+            c: 3
+        };
+        function reduce(prev, current){
+            return prev + current;
+        }
+        function reduce2(prev, current){
+            return '' + prev + current;
+        }
+        expect(util.objectReduce(obj, reduce, 0)).to.equal(6);
+        expect(util.objectReduce(obj, reduce, '0')).to.equal('0123');
+        expect(util.objectReduce(obj, reduce2)).to.equal('123');
+    });
 });

@@ -8,6 +8,38 @@ function getNewId(length, characters){
     return text;
 };
 
+function objectMap(obj, mapFunc, ignoreFunctions){
+    if(typeof ignoreFunctions == "undefined"){
+        ignoreFunctions = true;
+    }
+    let keys = Object.keys(obj);
+    if(ignoreFunctions){
+        keys = keys.filter(key=> typeof obj[key] != 'function');
+    }
+    let ret = {};
+    keys.forEach(key=>{
+        ret[key] = mapFunc(obj[key]);
+    });
+    return ret;
+}
+
+function objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions){
+    if(typeof ignoreFunctions == "undefined") {
+        ignoreFunctions = true;
+    }
+    let keys = Object.keys(obj);
+    if(ignoreFunctions) {
+        keys = keys.filter(key=> typeof obj[key] != 'function');
+    }
+    return keys.reduce((prev, key, index)=> {
+        if(index == 0 && typeof defaultValue == "undefined") {
+            return obj[keys[0]];
+        } else {
+            return reduceFunc(prev, obj[key]);
+        }
+    }, defaultValue);
+}
+
 function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
     let obj = {};
     if(typeof ignoreFunctions == "undefined"){
@@ -41,6 +73,8 @@ function pickOne(value, otherwise){
 }
 
 module.exports = {
+    objectMap: objectMap,
+    objectReduce: objectReduce,
     pickOne: pickOne,
     getNewId: getNewId,
     countByKey: countByKey,
