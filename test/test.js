@@ -7,10 +7,16 @@ const util = require('../index.js');
 describe('function tests',function(){
     it('pickOne', function(){
         let undef;
+        expect(util.pickOne('abc', 1)).to.equal('abc');
+        //whiteList
         expect(util.pickOne(undef, 1)).to.equal(1);
         expect(util.pickOne(null, 1)).to.equal(1);
+        expect(util.pickOne(null, 1, [null])).to.be.a('null');
+        expect(util.pickOne(undef, 1, [undef])).to.be.a('undefined');
+        //blackList
         expect(util.pickOne(2, 1)).to.equal(2);
-        expect(util.pickOne('abc', 1)).to.equal('abc');
+        expect(util.pickOne(2, 1, null, [2,4,6])).to.equal(1);
+
     });
     it('getNewId', function(){
         let newId = util.getNewId(500);
@@ -63,7 +69,7 @@ describe('function tests',function(){
         expect(obj[1]).to.be.an('undefined');
         expect(getSum(obj)).to.equal(arr.length);
 
-        //input is a object
+        //input is an object
         let input = {
             a:1,
             b:1,
@@ -97,10 +103,10 @@ describe('function tests',function(){
 
     it('getUniqueKeys', function(){
         let arr = [1,2,3,1,1,'1','1'];
-        expect(util.getUniqueKeys(arr).length).to.equal(3);
-        expect(util.getUniqueKeys(arr).indexOf('1')).to.not.equal(-1);
-        expect(util.getUniqueKeys(arr).indexOf('2')).to.not.equal(-1);
-        expect(util.getUniqueKeys(arr).indexOf('3')).to.not.equal(-1);
+        expect(util.getUniqueKeysAfterCount(arr).length).to.equal(3);
+        expect(util.getUniqueKeysAfterCount(arr).indexOf('1')).to.not.equal(-1);
+        expect(util.getUniqueKeysAfterCount(arr).indexOf('2')).to.not.equal(-1);
+        expect(util.getUniqueKeysAfterCount(arr).indexOf('3')).to.not.equal(-1);
     });
 
     it('increment', function(){
@@ -108,13 +114,17 @@ describe('function tests',function(){
         expect(util.increment(undef)).to.equal(1);
         expect(util.increment(null)).to.equal(1);
         expect(util.increment(2)).to.equal(3);
+        expect(util.increment(-5, -1)).to.equal(-6);
+        expect(util.increment(-5, 0)).to.equal(-5);
+        expect(util.increment(1, '')).to.equal('1');
     });
 
     it('objectMap', function(){
         let obj = {
             a: 1,
             b: 2,
-            c: 3
+            c: 3,
+            test: function(){}
         };
         function map(value){
             return value * 2;

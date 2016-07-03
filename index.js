@@ -58,18 +58,24 @@ function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
     return obj;
 }
 
-function getUniqueKeys(listOrObj, getKeyFunc){
-    let obj = countByKey(listOrObj, getKeyFunc);
+function getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions){
+    let obj = countByKey(listOrObj, getKeyFunc, ignoreFunctions);
     return Object.keys(obj);
 }
 
-function increment(value, incr) {
-    incr = incr? incr: 1;
-    return value? value + incr : incr;
+function increment(value, diff) {
+    diff = pickOne(diff, 1, [0, '']);
+    return value? value + diff : diff;
 }
 
-function pickOne(value, otherwise){
-    return value? value: otherwise;
+function pickOne(value, otherwise, whiteList, blackList){
+    if(whiteList && whiteList.indexOf(value)!=-1){
+      return value;
+    }else if(blackList && blackList.indexOf(value)!=-1){
+      return otherwise;
+    }else{
+      return value? value: otherwise;
+    }
 }
 
 module.exports = {
@@ -78,6 +84,6 @@ module.exports = {
     pickOne: pickOne,
     getNewId: getNewId,
     countByKey: countByKey,
-    getUniqueKeys: getUniqueKeys,
+    getUniqueKeysAfterCount: getUniqueKeysAfterCount,
     increment: increment
 };
