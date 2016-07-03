@@ -1,3 +1,5 @@
+/*jslint mocha:true */
+
 'use strict';
 const expect = require('chai').expect;
 const util = require('../index.js');
@@ -9,7 +11,7 @@ describe('function tests',function(){
         expect(util.pickOne(null, 1)).to.equal(1);
         expect(util.pickOne(2, 1)).to.equal(2);
         expect(util.pickOne('abc', 1)).to.equal('abc');
-    })
+    });
     it('getNewId', function(){
         let newId = util.getNewId(500);
         expect(newId.length).to.equal(500);
@@ -35,7 +37,7 @@ describe('function tests',function(){
         expect(obj[1]).to.equal(5);
         expect(obj[2]).to.equal(1);
         expect(obj[3]).to.equal(1);
-        expect(obj[5]).to.be.undefined;
+        expect(obj[5]).to.be.an('undefined');
 
         function getSum(obj){
             let sum = 0;
@@ -58,7 +60,7 @@ describe('function tests',function(){
         obj = util.countByKey(arr, getKey);
         expect(obj['<2']).to.equal(5);
         expect(obj['>=2']).to.equal(2);
-        expect(obj[1]).to.be.undefined;
+        expect(obj[1]).to.be.an('undefined');
         expect(getSum(obj)).to.equal(arr.length);
 
         //input is a object
@@ -68,12 +70,12 @@ describe('function tests',function(){
             c:2,
             1:3,
             'test': '1'
-        }
+        };
         obj = util.countByKey(input);
         expect(obj['1']).to.equal(3);
         expect(obj['2']).to.equal(1);
         expect(obj['3']).to.equal(1);
-        expect(obj['test']).to.be.undefined;
+        expect(obj.test).to.be.an('undefined');
         expect(getSum(obj)).to.equal(Object.keys(input).length);
 
         //ignore function
@@ -83,11 +85,11 @@ describe('function tests',function(){
             c:2,
             1:3,
             'test': function(){}
-        }
+        };
         obj = util.countByKey(ignore);
         expect(obj['1']).to.equal(2);
         expect(obj['2']).to.equal(1);
-        expect(obj['test']).to.be.undefined;
+        expect(obj.test).to.be.an('undefined');
         expect(getSum(obj)).to.equal(Object.keys(ignore).length-1);
         obj = util.countByKey(ignore, x=>x, false);
         expect(getSum(obj)).to.equal(Object.keys(ignore).length);

@@ -6,7 +6,7 @@ function getNewId(length, characters){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
-};
+}
 
 function objectMap(obj, mapFunc, ignoreFunctions){
     if(typeof ignoreFunctions == "undefined"){
@@ -32,7 +32,7 @@ function objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions){
         keys = keys.filter(key=> typeof obj[key] != 'function');
     }
     return keys.reduce((prev, key, index)=> {
-        if(index == 0 && typeof defaultValue == "undefined") {
+        if(index === 0 && typeof defaultValue === "undefined") {
             return obj[keys[0]];
         } else {
             return reduceFunc(prev, obj[key]);
@@ -80,4 +80,4 @@ module.exports = {
     countByKey: countByKey,
     getUniqueKeys: getUniqueKeys,
     increment: increment
-}
+};
