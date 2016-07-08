@@ -4,6 +4,8 @@ A javascript utils by CT.
 
 # APIs
 
+* groupByKey(listOrObj, getKeyFunc, ignoreFunctions)
+* reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc, defaultValue)
 * getNewId(length, characters)
 * objectMap(obj, mapFunc, ignoreFunctions)
 * objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions)
@@ -11,6 +13,30 @@ A javascript utils by CT.
 * getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
 * increment(value, diff)
 * pickOne(value, otherwise, whiteList, blackList)
+
+## groupByKey(listOrObj, getKeyFunc, ignoreFunctions)
+Group obj to an array base on the key(getKeyFunc(obj)).
+```js
+let list = [1,2,3,4,5];
+function getKey(num){
+    return num % 2;
+}
+let result = util.groupByKey(list, getKey);
+expect(result[0]).to.deep.equal([2,4]);
+expect(result[1]).to.deep.equal([1,3,5]);
+```
+
+## reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc, defaultValue)
+Reduce obj to an array base on the key(getKeyFunc(obj)).
+```js
+let list = [1,2,3,4,5];
+function getKey(num){
+    return num % 2;
+}
+let result = util.reduceByKey(list, getKey, true, (a,b)=> a+b, 5);
+expect(result[0]).to.equal(5 + 2 + 4);
+expect(result[1]).to.equal(5 + 1 + 3 + 5);
+```
 
 ## getNewId(length, characters)
 Get a string with certain length and random chose from a-z, A-Z, 0-9 in default.
@@ -106,12 +132,13 @@ expect(obj['3']).to.equal(1);
 expect(obj.test).to.be.an('undefined');
 
 ```
-* getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
+## getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
 Get an unique key array after countByKey
 ```js
 let arr = [1,2,3,1,1,'1','1'];
 console.log(util.getUniqueKeysAfterCount(arr)); //['1','2','3']
-* increment(value, diff)
+```
+## increment(value, diff)
 Get a result after value + diff (default 1)
 ```js
 let undef;
@@ -122,7 +149,7 @@ expect(util.increment(-5, -1)).to.equal(-6);
 expect(util.increment(-5, 0)).to.equal(-5);
 expect(util.increment(1, '')).to.equal('1');
 ```
-* pickOne(value, otherwise, whiteList, blackList)
+## pickOne(value, otherwise, whiteList, blackList)
 Pick value or otherwise by whiteList and blackList.
 whiteList can be `[0, '', null, undefiend]` (which put into if will go to else)
 If `value` is in `blackList`, will return `otherwise`.

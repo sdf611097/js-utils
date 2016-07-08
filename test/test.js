@@ -5,6 +5,25 @@ const expect = require('chai').expect;
 const util = require('../index.js');
 
 describe('function tests',function(){
+    it('reduceByKey', function(){
+        let list = [1,2,3,4,5];
+        function getKey(num){
+            return num % 2;
+        }
+        let result = util.reduceByKey(list, getKey, true, (a,b)=> a+b, 5);
+        expect(result[0]).to.equal(5 + 2 + 4);
+        expect(result[1]).to.equal(5 + 1 + 3 + 5);
+    });
+    it('groupByKey', function(){
+        let list = [1,2,3,4,5];
+        function getKey(num){
+            return num % 2;
+        }
+        let result = util.groupByKey(list, getKey);
+        expect(result[0]).to.deep.equal([2,4]);
+        expect(result[1]).to.deep.equal([1,3,5]);
+    });
+
     it('pickOne', function(){
         let undef;
         expect(util.pickOne('abc', 1)).to.equal('abc');

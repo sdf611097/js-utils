@@ -40,9 +40,9 @@ function objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions){
     }, defaultValue);
 }
 
-function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
+function reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc, defaultValue){
     let obj = {};
-    if(typeof ignoreFunctions == "undefined"){
+    if(typeof ignoreFunctions === "undefined"){
         ignoreFunctions = true;
     }
     if(typeof getKeyFunc == "undefined"){
@@ -53,9 +53,28 @@ function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
             continue;
         }
         let key = getKeyFunc(listOrObj[i]);
-        obj[key] = increment(obj[key], 1);
+        if(typeof defaultValue !== "undefined" && defaultValue !== null){
+            obj[key] = pickOne(obj[key], defaultValue, [0, '']);
+        }
+        obj[key] = reduceFunc(obj[key], listOrObj[i]);
     }
     return obj;
+}
+
+function groupByKey(listOrObj, getKeyFunc, ignoreFunctions){
+    function reduceFunc(lastResult , oriObj){
+        lastResult = pickOne(lastResult, []);
+        lastResult.push(oriObj);
+        return lastResult;
+    }
+    return reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc);
+}
+
+function countByKey(listOrObj, getKeyFunc, ignoreFunctions){
+    function reduceFunc(lastResult , oriObj){
+        return increment(lastResult, 1);
+    }
+    return reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc);
 }
 
 function getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions){
@@ -79,6 +98,8 @@ function pickOne(value, otherwise, whiteList, blackList){
 }
 
 module.exports = {
+    groupByKey: groupByKey,
+    reduceByKey: reduceByKey,
     objectMap: objectMap,
     objectReduce: objectReduce,
     pickOne: pickOne,
