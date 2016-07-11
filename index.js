@@ -11,11 +11,11 @@ function getValue(defaultValue) {
         return ret;
     }
     
-    function getLastValue(arg, funcOrAttr) {
+    function getLastValue(lastValue, funcOrAttr) {
         if(typeof funcOrAttr === "function") {
-            return funcOrAttr(arg);
+            return funcOrAttr(lastValue);
         }else{
-            return arg[funcOrAttr];
+            return lastValue[funcOrAttr];
         }
     }
     
@@ -24,7 +24,7 @@ function getValue(defaultValue) {
         ret = lastValue;
     }
     for(let i = 1; i < valuePath.length; i++) {
-        if (!isOk(getLastValue(lastValue, valuePath[i]))) {
+        if (!isOk(lastValue) || !isOk(getLastValue(lastValue, valuePath[i]))) {
             break;
         } else if(i == valuePath.length-1) {
             ret = getLastValue(lastValue, valuePath[i]);

@@ -16,6 +16,9 @@ describe('function tests',function(){
     
     it('getValue', function(){
         const getValue = util.getValue;
+        let undef;
+        let t0 = getValue('qq', undef, 'a');
+        expect(t0).to.equal('qq');
         let test = {};
         let t1 = getValue(1, test, 'a', 'b');
         expect(t1).to.equal(1);
