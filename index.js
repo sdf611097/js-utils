@@ -1,4 +1,41 @@
 'use strict';
+
+function isOk(value){
+    return ! ((typeof value === "undefined") || value ==null);
+}
+
+function getValue(defaultValue) {
+    let valuePath = Array.prototype.slice.call(arguments, 1);
+    let ret = defaultValue;
+    if(valuePath.length===0) {
+        return ret;
+    }
+    
+    function getLastValue(arg, funcOrAttr) {
+        if(typeof funcOrAttr === "function") {
+            return funcOrAttr(arg);
+        }else{
+            return arg[funcOrAttr];
+        }
+    }
+    
+    let lastValue = valuePath[0];
+    if(isOk(lastValue) && valuePath.length === 1){
+        ret = lastValue;
+    }
+    for(let i = 1; i < valuePath.length; i++) {
+        if (!isOk(getLastValue(lastValue, valuePath[i]))) {
+            break;
+        } else if(i == valuePath.length-1) {
+            ret = getLastValue(lastValue, valuePath[i]);
+        } else {
+            //ok and not the last argument
+            lastValue = getLastValue(lastValue, valuePath[i]);
+        }
+    }
+    return ret;
+}
+
 function getNewId(length, characters){
     var text = "";
     var possible = characters? characters : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -98,6 +135,8 @@ function pickOne(value, otherwise, whiteList, blackList){
 }
 
 module.exports = {
+    isOk: isOk,
+    getValue: getValue,
     groupByKey: groupByKey,
     reduceByKey: reduceByKey,
     objectMap: objectMap,

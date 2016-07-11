@@ -5,6 +5,42 @@ const expect = require('chai').expect;
 const util = require('../index.js');
 
 describe('function tests',function(){
+    it('isOk', function(){
+        let undef;
+        expect(util.isOk(undef)).to.equal(false);
+        expect(util.isOk(null)).to.equal(false);
+        expect(util.isOk(1)).to.equal(true);
+        expect(util.isOk('abc')).to.equal(true);
+        expect(util.isOk(false)).to.equal(true);
+    });
+    
+    it('getValue', function(){
+        const getValue = util.getValue;
+        let test = {};
+        let t1 = getValue(1, test, 'a', 'b');
+        expect(t1).to.equal(1);
+        let t10 = getValue(1, test);
+        expect(t10).to.deep.equal({});        
+        test.a = { b: {}};
+        let t11 = getValue(1, test, 'a');
+        expect(t11).to.deep.equal(t11, { b: {}});
+        let t2 = getValue(1, test, 'a', 'b');
+        expect(t2).to.deep.equal({});
+        test.a.b.c = {
+            value: 5, 
+            get: function(arg){
+                return this.value + arg;
+            }
+        };
+        let t3 = getValue(1, test, 'a', 'b', 'c');
+        expect(t3.value).to.equal(5);
+        let t4 = getValue(1, test, 'a', 'b', 'c', function(obj){
+            return obj.get(100);
+        });
+        
+        expect(t4).to.equal(105);
+    });
+    
     it('reduceByKey', function(){
         let list = [1,2,3,4,5];
         function getKey(num){
