@@ -103,9 +103,9 @@ expect(obj[5]).to.be.an('undefined');
 //all the key is treat as string value
 arr.push('1');
 arr.push('1');
-expect(obj[1]).to.equal(4);
+expect(obj[1]).to.equal(5);
 
-unction getKey(key){
+function getKey(key){
     if(key < 2){
         return '<2';
     }else{
