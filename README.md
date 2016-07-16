@@ -1,3 +1,8 @@
+
+[![Build Status](https://travis-ci.org/sdf611097/js-utils.png)](https://travis-ci.org/sdf611097/js-utils)
+[![Coverage Status](https://img.shields.io/codecov/c/github/sdf611097/js-utils/master.svg)](https://codecov.io/github/sdf611097/js-utils?branch=master)
+
+
 ct-js-utils
 ===
 A javascript utils by CT.
