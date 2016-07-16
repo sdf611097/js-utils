@@ -36,6 +36,7 @@
   "homepage": "https://github.com/sdf611097/js-utils#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "codecov": "^1.0.1",
     "istanbul": "^0.4.4",
     "jscs": "^3.0.7",
     "jshint": "^2.9.2",
