@@ -1,0 +1,6 @@
+{
+    "excludeFiles": ["coverage/**",".git/**","node_modules/**"],
+    "maxErrors": 10,
+    "preset": "airbnb",
+    "validateIndentation": 4
+}

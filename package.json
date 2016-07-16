@@ -4,7 +4,11 @@
   "description": "es6 javascript utils, objectReduce, objectMap, group then count",
   "main": "index.js",
   "scripts": {
+    "beautify": "./node_modules/.bin/jscs ./ --fix",
+    "jscs": "./node_modules/.bin/jscs ./",
+    "jshint": "./node_modules/.bin/jshint",
     "test": "./node_modules/.bin/mocha",
+    "posttest": "npm run jshint; npm run jscs",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha"
   },
   "repository": {
@@ -33,6 +37,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.2",
     "mocha": "^2.5.3"
   },
   "engines": {

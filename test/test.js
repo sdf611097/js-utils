@@ -4,8 +4,8 @@
 const expect = require('chai').expect;
 const util = require('../index.js');
 
-describe('function tests',function(){
-    it('isOk', function(){
+describe('function tests', function () {
+    it('isOk', function () {
         let undef;
         expect(util.isOk(undef)).to.equal(false);
         expect(util.isOk(null)).to.equal(false);
@@ -13,8 +13,8 @@ describe('function tests',function(){
         expect(util.isOk('abc')).to.equal(true);
         expect(util.isOk(false)).to.equal(true);
     });
-    
-    it('getValue', function(){
+
+    it('getValue', function () {
         const getValue = util.getValue;
         let undef;
         let t0 = getValue('qq', undef, 'a');
@@ -23,60 +23,66 @@ describe('function tests',function(){
         let t1 = getValue(1, test, 'a', 'b');
         expect(t1).to.equal(1);
         let t10 = getValue(1, test);
-        expect(t10).to.deep.equal({});        
-        test.a = { b: {}};
+        expect(t10).to.deep.equal({});
+        test.a = { b: {} };
         let t11 = getValue(1, test, 'a');
-        expect(t11).to.deep.equal(t11, { b: {}});
+        expect(t11).to.deep.equal(t11, { b: {} });
         let t2 = getValue(1, test, 'a', 'b');
         expect(t2).to.deep.equal({});
         test.a.b.c = {
-            value: 5, 
-            get: function(arg){
+            value: 5,
+            get: function (arg) {
                 return this.value + arg;
-            }
+            },
         };
         let t3 = getValue(1, test, 'a', 'b', 'c');
         expect(t3.value).to.equal(5);
-        let t4 = getValue(1, test, 'a', 'b', 'c', function(obj){
+        let t4 = getValue(1, test, 'a', 'b', 'c', function (obj) {
             return obj.get(100);
         });
-        
+
         expect(t4).to.equal(105);
     });
-    
-    it('reduceByKey', function(){
-        let list = [1,2,3,4,5];
-        function getKey(num){
+
+    it('reduceByKey', function () {
+        let list = [1, 2, 3, 4, 5];
+        function getKey(num) {
             return num % 2;
         }
-        let result = util.reduceByKey(list, getKey, true, (a,b)=> a+b, 5);
+
+        let result = util.reduceByKey(list, getKey, true, (a, b)=> a + b, 5);
         expect(result[0]).to.equal(5 + 2 + 4);
         expect(result[1]).to.equal(5 + 1 + 3 + 5);
     });
-    it('groupByKey', function(){
-        let list = [1,2,3,4,5];
-        function getKey(num){
+
+    it('groupByKey', function () {
+        let list = [1, 2, 3, 4, 5];
+        function getKey(num) {
             return num % 2;
         }
+
         let result = util.groupByKey(list, getKey);
-        expect(result[0]).to.deep.equal([2,4]);
-        expect(result[1]).to.deep.equal([1,3,5]);
+        expect(result[0]).to.deep.equal([2, 4]);
+        expect(result[1]).to.deep.equal([1, 3, 5]);
     });
 
-    it('pickOne', function(){
+    it('pickOne', function () {
         let undef;
         expect(util.pickOne('abc', 1)).to.equal('abc');
+
         //whiteList
         expect(util.pickOne(undef, 1)).to.equal(1);
         expect(util.pickOne(null, 1)).to.equal(1);
         expect(util.pickOne(null, 1, [null])).to.be.a('null');
         expect(util.pickOne(undef, 1, [undef])).to.be.a('undefined');
+
         //blackList
         expect(util.pickOne(2, 1)).to.equal(2);
-        expect(util.pickOne(2, 1, null, [2,4,6])).to.equal(1);
+        expect(util.pickOne(2, 1, null, [2, 4, 6])).to.equal(1);
 
     });
-    it('getNewId', function(){
+
+    it('getNewId', function () {
         let newId = util.getNewId(500);
         expect(newId.length).to.equal(500);
         expect(newId.search(/[^a-zA-Z0-9]/)).to.equal(-1);
@@ -94,32 +100,35 @@ describe('function tests',function(){
         expect(newId.search('a')).to.equal(-1);
     });
 
-    it('countByKey', function(){
+    it('countByKey', function () {
+
         //no getKey function
-        let arr = [1,2,3,1,1,'1','1'];
+        let arr = [1, 2, 3, 1, 1, '1', '1'];
         let obj = util.countByKey(arr);
         expect(obj[1]).to.equal(5);
         expect(obj[2]).to.equal(1);
         expect(obj[3]).to.equal(1);
         expect(obj[5]).to.be.an('undefined');
 
-        function getSum(obj){
+        function getSum(obj) {
             let sum = 0;
-            for(let key in obj){
+            for (let key in obj) {
                 sum += obj[key];
             }
+
             return sum;
         }
 
         expect(getSum(obj)).to.equal(arr.length);
 
-        function getKey(key){
-            if(key < 2){
+        function getKey(key) {
+            if (key < 2) {
                 return '<2';
-            }else{
+            }else {
                 return '>=2';
             }
         }
+
         //with getKey function
         obj = util.countByKey(arr, getKey);
         expect(obj['<2']).to.equal(5);
@@ -129,11 +138,11 @@ describe('function tests',function(){
 
         //input is an object
         let input = {
-            a:1,
-            b:1,
-            c:2,
-            1:3,
-            'test': '1'
+            a: 1,
+            b: 1,
+            c: 2,
+            1: 3,
+            test: '1',
         };
         obj = util.countByKey(input);
         expect(obj['1']).to.equal(3);
@@ -144,30 +153,30 @@ describe('function tests',function(){
 
         //ignore function
         let ignore = {
-            a:1,
-            b:1,
-            c:2,
-            1:3,
-            'test': function(){}
+            a: 1,
+            b: 1,
+            c: 2,
+            1: 3,
+            test: function () {},
         };
         obj = util.countByKey(ignore);
         expect(obj['1']).to.equal(2);
         expect(obj['2']).to.equal(1);
         expect(obj.test).to.be.an('undefined');
-        expect(getSum(obj)).to.equal(Object.keys(ignore).length-1);
+        expect(getSum(obj)).to.equal(Object.keys(ignore).length - 1);
         obj = util.countByKey(ignore, x=>x, false);
         expect(getSum(obj)).to.equal(Object.keys(ignore).length);
     });
 
-    it('getUniqueKeys', function(){
-        let arr = [1,2,3,1,1,'1','1'];
+    it('getUniqueKeys', function () {
+        let arr = [1, 2, 3, 1, 1, '1', '1'];
         expect(util.getUniqueKeysAfterCount(arr).length).to.equal(3);
         expect(util.getUniqueKeysAfterCount(arr).indexOf('1')).to.not.equal(-1);
         expect(util.getUniqueKeysAfterCount(arr).indexOf('2')).to.not.equal(-1);
         expect(util.getUniqueKeysAfterCount(arr).indexOf('3')).to.not.equal(-1);
     });
 
-    it('increment', function(){
+    it('increment', function () {
         let undef;
         expect(util.increment(undef)).to.equal(1);
         expect(util.increment(null)).to.equal(1);
@@ -177,33 +186,36 @@ describe('function tests',function(){
         expect(util.increment(1, '')).to.equal('1');
     });
 
-    it('objectMap', function(){
+    it('objectMap', function () {
         let obj = {
             a: 1,
             b: 2,
             c: 3,
-            test: function(){}
+            test: function () {},
         };
-        function map(value){
+        function map(value) {
             return value * 2;
         }
+
         expect(util.objectMap(obj, map)).to.deep.equal({
-            a: 2, b:4, c:6
+            a: 2, b: 4, c: 6,
         });
     });
 
-    it('objectReduce', function(){
+    it('objectReduce', function () {
         let obj = {
             a: 1,
             b: 2,
-            c: 3
+            c: 3,
         };
-        function reduce(prev, current){
+        function reduce(prev, current) {
             return prev + current;
         }
-        function reduce2(prev, current){
+
+        function reduce2(prev, current) {
             return '' + prev + current;
         }
+
         expect(util.objectReduce(obj, reduce, 0)).to.equal(6);
         expect(util.objectReduce(obj, reduce, '0')).to.equal('0123');
         expect(util.objectReduce(obj, reduce2)).to.equal('123');
