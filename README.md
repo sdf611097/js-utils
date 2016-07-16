@@ -4,6 +4,8 @@ A javascript utils by CT.
 
 # APIs
 
+* isOk(value)
+* getValue(defaultValue, arg1, ..., argN)
 * groupByKey(listOrObj, getKeyFunc, ignoreFunctions)
 * reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc, defaultValue)
 * getNewId(length, characters)
@@ -130,8 +132,8 @@ expect(obj['1']).to.equal(3);
 expect(obj['2']).to.equal(1);
 expect(obj['3']).to.equal(1);
 expect(obj.test).to.be.an('undefined');
-
 ```
+
 ## getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
 Get an unique key array after countByKey
 ```js
@@ -164,3 +166,25 @@ expect(util.pickOne(undef, 1, [undef])).to.be.a('undefined');
 //blackList
 expect(util.pickOne(2, 1)).to.equal(2);
 expect(util.pickOne(2, 1, null, [2,4,6])).to.equal(1);
+```
+
+## isOk(value)
+Return false only when value is null or undefined.
+```js
+let undef;
+expect(util.isOk(undef)).to.equal(false);
+expect(util.isOk(null)).to.equal(false);
+expect(util.isOk(1)).to.equal(true);
+expect(util.isOk('abc')).to.equal(true);
+expect(util.isOk(false)).to.equal(true);
+```
+## getValue(defaultValue, arg1, ..., argN)
+Avoid null or undefined from 'a'-'f' test['a'].get('b')['c']['d'].func2('e')['f'].  
+If it is null or undefined in the path, will get defaultValue. Simplify it to
+```js
+getValue(DEFAULT_V, test, 'a', prev=>prev.get('b'), 'c', 'd', prev=> prev.func2('e'), 'f')
+```
+If arg is function, will treat it as a getter from prev result. Otherwise, as a key to get related value from object(array).
+
+```js
+ 
