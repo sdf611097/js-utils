@@ -187,4 +187,77 @@ getValue(DEFAULT_V, test, 'a', prev=>prev.get('b'), 'c', 'd', prev=> prev.func2(
 If arg is function, will treat it as a getter from prev result. Otherwise, as a key to get related value from object(array).
 
 ```js
- 
+const getValue = util.getValue;
+let undef;
+
+//obj[k1][k2], obj is undefined, get default
+let t0 = getValue('qq', undef, 'a');
+expect(t0).to.equal('qq');
+
+//test, test is not null and not undefined, get test itself
+let test = {};
+let t10 = getValue(1, test);
+expect(t10).to.deep.equal({});
+
+//test[k1][k2], test[k1] is undefined, get default
+let t1 = getValue(1, test, 'a', 'b');
+expect(t1).to.equal(1);
+
+//one level retreive
+//test[k1] is exist and neither undefined nor null, get test[k1]
+test.a = { b: {} };
+let t11 = getValue(1, test, 'a');
+expect(t11).to.deep.equal(t11, { b: {} });
+
+//2 level retreive
+//test[k1][k2] is exist and neither undefined nor null, get test[k1][k2]
+let t2 = getValue(1, test, 'a', 'b');
+expect(t2).to.deep.equal({});
+
+//multi level(3) retreive
+//test[k1][k2][k3] is exist, get test[k1][k2][k3]
+const ABC = {
+    value: 5,
+    get: function (arg) {
+        return this.value + arg;
+    },
+};
+test.a.b.c = ABC;
+let t3 = getValue(1, test, 'a', 'b', 'c');
+expect(t3.value).to.equal(5);
+expect(t3).to.deep.equal(ABC);
+
+//test[k1][k2][k3].get(100)
+let t4 = getValue(1, test, 'a', 'b', 'c', function (prevResult) {
+    return prevResult.get(100);
+});
+
+expect(t4).to.equal(105);
+
+//only set default, return default
+let t5 = getValue('onlyDefault');
+expect(t5).to.equal('onlyDefault');
+
+function getObj(key) {
+    let obj = {};
+    obj.key = key;
+    obj.get = getObj;
+    obj.null = null;
+    return obj;
+}
+
+let testObj = getObj('begin');
+
+//testObj.get(k1).get(k2),  test.get(k1) is null, get default
+let t6 = getValue('hi', testObj, obj=> obj.null, obj=> obj.get('hi'));
+expect(t6).to.equal('hi');
+
+//testObj.get(k1).get(k2),  return test.get(k1).get(k2)
+let t7 = getValue('t7', testObj, obj=> obj.get('a'), obj=> obj.get('ab'));
+expect(t7).to.deep.equal(getObj('ab'));
+
+//test[k1].get[k2]
+test.k1 = getObj('hi');
+let t8 = getValue('t8', test, 'k1', obj=> obj.get('t8'));
+expect(t8).to.deep.equal(getObj('t8'));
+```
