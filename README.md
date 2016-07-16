@@ -1,7 +1,7 @@
 
 [![Build Status](https://travis-ci.org/sdf611097/js-utils.png)](https://travis-ci.org/sdf611097/js-utils)
 [![Coverage Status](https://img.shields.io/codecov/c/github/sdf611097/js-utils/master.svg)](https://codecov.io/github/sdf611097/js-utils?branch=master)
-
+[![Dependency Status](https://gemnasium.com/badges/github.com/sdf611097/js-utils.svg)](https://gemnasium.com/github.com/sdf611097/js-utils)
 
 ct-js-utils
 ===
