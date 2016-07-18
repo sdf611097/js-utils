@@ -1,5 +1,29 @@
 'use strict';
 
+//return 0 ~ keysSize -1
+//NoteForME: Using bitwise OR 0 to floor a number is faster, but 32-bit signed integers only
+//http://stackoverflow.com/questions/7487977/using-bitwise-or-0-to-floor-a-number
+function randPosInt(listSize) {
+    return listSize > 0 ? Math.floor(Math.random() * listSize) : -1;
+}
+
+function randIndex(listOrObj, ignoreFunctions) {
+    let keys = Object.keys(listOrObj);
+    if (typeof ignoreFunctions === 'undefined') {
+        ignoreFunctions = true;
+    }
+
+    if (ignoreFunctions) {
+        keys = keys.filter(key=> typeof listOrObj[key] != 'function');
+    }
+
+    return keys[randPosInt(keys.length)];
+}
+
+function randPick(listOrObj, ignoreFunctions) {
+    return listOrObj[randIndex(listOrObj, ignoreFunctions)];
+}
+
 function isOk(value) {
     return !((typeof value === 'undefined') || value === null);
 }
@@ -67,13 +91,13 @@ function objectMap(obj, mapFunc, ignoreFunctions) {
 }
 
 function objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions) {
-    if (typeof ignoreFunctions == 'undefined') {
+    if (typeof ignoreFunctions === 'undefined') {
         ignoreFunctions = true;
     }
 
     let keys = Object.keys(obj);
     if (ignoreFunctions) {
-        keys = keys.filter(key=> typeof obj[key] != 'function');
+        keys = keys.filter(key=> typeof obj[key] !== 'function');
     }
 
     return keys.reduce((prev, key, index)=> {
@@ -150,15 +174,18 @@ function pickOne(value, otherwise, whiteList, blackList) {
 }
 
 module.exports = {
-    isOk: isOk,
-    getValue: getValue,
-    groupByKey: groupByKey,
-    reduceByKey: reduceByKey,
-    objectMap: objectMap,
-    objectReduce: objectReduce,
-    pickOne: pickOne,
-    getNewId: getNewId,
-    countByKey: countByKey,
-    getUniqueKeysAfterCount: getUniqueKeysAfterCount,
-    increment: increment,
+    randPosInt,
+    randIndex,
+    randPick,
+    isOk,
+    getValue,
+    groupByKey,
+    reduceByKey,
+    objectMap,
+    objectReduce,
+    pickOne,
+    getNewId,
+    countByKey,
+    getUniqueKeysAfterCount,
+    increment,
 };

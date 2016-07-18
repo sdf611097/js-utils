@@ -5,6 +5,116 @@ const expect = require('chai').expect;
 const util = require('../index.js');
 
 describe('function tests', function () {
+    it('randPosInt', function () {
+        let undef;
+        expect(util.randPosInt(null)).to.equal(-1);
+        expect(util.randPosInt(undef)).to.equal(-1);
+        expect(util.randPosInt(0)).to.equal(-1);
+
+        let size = 100;
+
+        function test(result) {
+            expect(result).to.be.at.most(size - 1);
+            expect(result).to.be.at.least(0);
+
+            //is an Integer
+            expect(result).to.equal(Math.floor(result));
+            expect(typeof result).to.equal('number');
+        }
+
+        for (let i = 0; i < 100 * size; i++) {
+            test(util.randPosInt(size));
+        }
+    });
+
+    it('randIndex', function () {
+        let list = [1, 2, 3, 4, 5];
+        let obj = {
+            a: list[0],
+            b: list[1],
+            c: list[2],
+            d: list[3],
+            e: list[4],
+        };
+
+        let size = list.length;
+
+        //test list
+        for (let i = 0; i < 100 * size; i++) {
+            let index = util.randIndex(list);
+            expect(index).to.be.at.most(size - 1);
+            expect(index).to.be.at.least(0);
+
+            //is an Integer
+            expect(index).to.be.a('string');
+            expect(index == Math.floor(index)).to.be.true;
+        }
+
+        //test object
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randIndex(obj);
+            expect(result.length).to.equal(1);
+            expect(result).to.be.oneOf(Object.keys(obj));
+        }
+
+        obj.f = function () {};
+
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randIndex(obj, false);
+            expect(result.length).to.equal(1);
+            expect(result).to.be.oneOf(Object.keys(obj));
+        }
+
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randIndex(obj, true);
+            expect(result.length).to.equal(1);
+            expect(result).to.not.equal('f');
+        }
+    });
+
+    it('randPick', function () {
+        let list = [1, 2, 3, 4, 5];
+        let obj = {
+            a: list[0],
+            b: list[1],
+            c: list[2],
+            d: list[3],
+            e: list[4],
+        };
+
+        let size = list.length;
+
+        //test list
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randPick(list);
+            expect(result).to.be.oneOf(list);
+        }
+
+        //test object
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randPick(obj);
+            expect(result).to.be.oneOf(list);
+        }
+
+        obj.f = function () {};
+
+        //test object with function element
+        for (let i = 0; i < 100 * size; i++) {
+            let result = util.randPick(obj, false);
+            expect(result).to.be.oneOf(Object.keys(obj).map(key=> obj[key]));
+        }
+
+        //test object with function element
+        for (let i = 0; i < 100 * size; i++) {
+            let targets = Object.keys(obj).filter(key=> key !== 'f').map(key=> obj[key]);
+            let result1 = util.randPick(obj);
+            let result2 = util.randPick(obj, true);
+
+            expect(result1).to.be.oneOf(targets);
+            expect(result2).to.be.oneOf(targets);
+        }
+    });
+
     it('isOk', function () {
         let undef;
         expect(util.isOk(undef)).to.equal(false);
