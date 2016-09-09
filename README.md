@@ -7,6 +7,10 @@ ct-js-utils
 ===
 A javascript utils by CT.
 
+How to get
+==
+npm install --save ct-js-utils
+
 # APIs
 * flat2DList(list, getList)
 * isOk(value)

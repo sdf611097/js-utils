@@ -1,6 +1,6 @@
 {
   "name": "ct-js-utils",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "es6 javascript utils, objectReduce, objectMap, group then count",
   "main": "index.js",
   "scripts": {
