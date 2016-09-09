@@ -8,7 +8,7 @@ ct-js-utils
 A javascript utils by CT.
 
 # APIs
-
+* flat2DList(list, getList)
 * isOk(value)
 * getValue(defaultValue, arg1, ..., argN)
 * groupByKey(listOrObj, getKeyFunc, ignoreFunctions)
@@ -23,6 +23,17 @@ A javascript utils by CT.
 * randPosInt(listSize)
 * randIndex(listOrObj, ignoreFunctions)
 * randPick(listOrObj, ignoreFunctions)
+
+## flat2DList(list, getList)
+Convert 2D list into 1D.
+```js
+let list = [[1], [2, 2], [3, 3, 3]];
+expect(util.flat2DList(list)).to.deep.equal([1, 2, 2, 3, 3, 3]);
+
+let objList = [{ list: ['a'] }, { list: ['a', 'b'] }, { list: ['a', 'c', 'd'] }];
+expect(util.flat2DList(objList, obj=> obj.list))
+    .to.deep.equal(['a', 'a', 'b', 'a', 'c', 'd']);
+```
 
 ## groupByKey(listOrObj, getKeyFunc, ignoreFunctions)
 Group obj to an array base on the key(getKeyFunc(obj)).
@@ -286,7 +297,7 @@ expect(result).to.be.at.least(0);
 
 //is an Integer
 expect(result).to.equal(Math.floor(result));
-expect(typeof result).to.equal('number
+expect(typeof result).to.equal('number');
 
 ```
 

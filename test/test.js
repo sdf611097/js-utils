@@ -5,6 +5,15 @@ const expect = require('chai').expect;
 const util = require('../index.js');
 
 describe('function tests', function () {
+    it('flat2DList', function () {
+        let list = [[1], [2, 2], [3, 3, 3]];
+        expect(util.flat2DList(list)).to.deep.equal([1, 2, 2, 3, 3, 3]);
+
+        let objList = [{ list: ['a'] }, { list: ['a', 'b'] }, { list: ['a', 'c', 'd'] }];
+        expect(util.flat2DList(objList, obj=> obj.list))
+            .to.deep.equal(['a', 'a', 'b', 'a', 'c', 'd']);
+    });
+
     it('randPosInt', function () {
         let undef;
         expect(util.randPosInt(null)).to.equal(-1);
@@ -327,10 +336,10 @@ describe('function tests', function () {
 
     it('getUniqueKeys', function () {
         let arr = [1, 2, 3, 1, 1, '1', '1'];
-        expect(util.getUniqueKeysAfterCount(arr).length).to.equal(3);
-        expect(util.getUniqueKeysAfterCount(arr).indexOf('1')).to.not.equal(-1);
-        expect(util.getUniqueKeysAfterCount(arr).indexOf('2')).to.not.equal(-1);
-        expect(util.getUniqueKeysAfterCount(arr).indexOf('3')).to.not.equal(-1);
+        expect(util.getUniqueKeys(arr).length).to.equal(3);
+        expect(util.getUniqueKeys(arr).indexOf('1')).to.not.equal(-1);
+        expect(util.getUniqueKeys(arr).indexOf('2')).to.not.equal(-1);
+        expect(util.getUniqueKeys(arr).indexOf('3')).to.not.equal(-1);
     });
 
     it('increment', function () {

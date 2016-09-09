@@ -1,5 +1,14 @@
 'use strict';
 
+function flat2DList(list, getList) {
+    if (typeof getList == 'undefined') {
+        getList = (obj) => obj;
+    }
+
+    let arr2D = list.map((obj, i)=> getList(obj, i));
+    return arr2D.reduce((prev, current)=> prev.concat(current), []);
+}
+
 //return 0 ~ keysSize -1
 //NoteForME: Using bitwise OR 0 to floor a number is faster, but 32-bit signed integers only
 //http://stackoverflow.com/questions/7487977/using-bitwise-or-0-to-floor-a-number
@@ -153,7 +162,7 @@ function countByKey(listOrObj, getKeyFunc, ignoreFunctions) {
     return reduceByKey(listOrObj, getKeyFunc, ignoreFunctions, reduceFunc);
 }
 
-function getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions) {
+function getUniqueKeys(listOrObj, getKeyFunc, ignoreFunctions) {
     let obj = countByKey(listOrObj, getKeyFunc, ignoreFunctions);
     return Object.keys(obj);
 }
@@ -186,6 +195,7 @@ module.exports = {
     pickOne,
     getNewId,
     countByKey,
-    getUniqueKeysAfterCount,
+    getUniqueKeys,
     increment,
+    flat2DList,
 };
