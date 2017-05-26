@@ -21,7 +21,7 @@ npm install --save ct-js-utils
 * objectMap(obj, mapFunc, ignoreFunctions)
 * objectReduce(obj, reduceFunc, defaultValue, ignoreFunctions)
 * countByKey(listOrObj, getKeyFunc, ignoreFunctions)
-* getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
+* getUniqueKeys(listOrObj, getKeyFunc, ignoreFunctions)
 * increment(value, diff)
 * pickOne(value, otherwise, whiteList, blackList)
 * randPosInt(listSize)
@@ -157,11 +157,11 @@ expect(obj['3']).to.equal(1);
 expect(obj.test).to.be.an('undefined');
 ```
 
-## getUniqueKeysAfterCount(listOrObj, getKeyFunc, ignoreFunctions)
+## getUniqueKeys(listOrObj, getKeyFunc, ignoreFunctions)
 Get an unique key array after countByKey
 ```js
 let arr = [1,2,3,1,1,'1','1'];
-console.log(util.getUniqueKeysAfterCount(arr)); //['1','2','3']
+console.log(util.getUniqueKeys(arr)); //['1','2','3']
 ```
 ## increment(value, diff)
 Get a result after value + diff (default 1)
@@ -202,7 +202,7 @@ expect(util.isOk('abc')).to.equal(true);
 expect(util.isOk(false)).to.equal(true);
 ```
 ## getValue(defaultValue, arg1, ..., argN)
-Avoid null or undefined from 'a'-'f' test['a'].get('b')['c']['d'].func2('e')['f'].  
+Avoid null or undefined from 'a'-'f' test['a'].get('b')['c']['d'].func2('e')['f'].
 If it is null or undefined in the path, will get defaultValue. Simplify it to
 ```js
 getValue(DEFAULT_V, test, 'a', prev=>prev.get('b'), 'c', 'd', prev=> prev.func2('e'), 'f')
